@@ -40,7 +40,7 @@ extraEnvs: []
 
 master:
   config:
-    target-host: https://site.example.com
+    target-host: https://x3bobnpgtf.execute-api.us-west-2.amazonaws.com
   resources:
     limits:
       cpu: 100m
