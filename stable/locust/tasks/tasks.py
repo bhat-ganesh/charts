@@ -1,10 +1,7 @@
 from locust import HttpLocust, TaskSet, task
-# import json
+import json
 
 class ElbTasks(TaskSet):
-#   @task
-#   def status(self):
-#       self.client.get("/status")
   @task
   def post_telemetry(self):
     #   regex = json.loads(open("/locust-tasks/rtl_json.txt", "r").read())
