@@ -4,9 +4,9 @@ import json
 class ElbTasks(TaskSet):
   @task
   def post_telemetry(self):
-    #   regex = json.loads(open("/locust-tasks/rtl_json.txt", "r").read())
-    #   self.client.post("/erdk/upload/device/telemetry", data=json.dumps(regex))
-      self.client.post("/erdk/upload/device/telemetry", data={'hello': 'world'})
+    #   telemetry = json.loads(open("/locust-tasks/rtl_json.txt", "r").read())
+    #   self.client.post("/erdk/upload/device/telemetry", data=json.dumps(telemetry))
+      self.client.post("/erdk/upload/device/telemetry", data=json.dumps({'hello': 'world'}))
 
 #   @task
 #   def post_log(self):
