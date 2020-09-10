@@ -8,7 +8,7 @@ image:
 
 service:
   name: master-web
-  type: NodePort
+  type: ClusterIP
   externalPort: 8089
   internalPort: 8089
   nodePort: 0
