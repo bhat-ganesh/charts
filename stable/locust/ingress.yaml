@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/session-cookie-name: LOCUSTINGRESSCOOKIE
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+  name: locust
+  namespace: locust
+spec:
+  rules:
+  - host: locust.router.bijay-eks-app1.bijay.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: locust-master-svc
+          servicePort: 8089
