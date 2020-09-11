@@ -1,5 +1,5 @@
 from locust import HttpLocust, TaskSet, task
-import json, base64, io
+import json, base64
 
 class ElbTasks(TaskSet):
   @task
