@@ -1,4 +1,5 @@
 from locust import HttpLocust, TaskSet, task
+from time import gmtime, strftime
 import json, base64
 
 class ElbTasks(TaskSet):
@@ -6,7 +7,8 @@ class ElbTasks(TaskSet):
   def post_telemetry(self):
       telemetry = json.loads(open("/locust-tasks/rtl_json.txt", "r").read())
       # self.client.post("/erdk/upload/device/telemetry", data=json.dumps(telemetry))
-      self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},{"mac":"B8:27:EB:1A:FD:FF"},{"erouterIpv4":"192.168.2.36"},{"erouterIpv6":"null"},{"PartnerId":"RDKM"},{"AccountId":"Unknown"},{"Version":"rdkb-generic-broadband-image_default_20200619132645"},{"Time":"2020-06-17 18:48:00"},{"hello":"world2"}]}))
+      ts = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+      self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},{"mac":"FF:FF:FF:FF:FF:FF"},{"erouterIpv4":"192.168.2.36"},{"erouterIpv6":"null"},{"PartnerId":"RDKM"},{"AccountId":"Unknown"},{"Version":"rdkb-generic-broadband-image_default_20200619132645"},{"Time":ts}]}))
 
   @task
   def post_log(self):
