@@ -1,5 +1,5 @@
 from locust import HttpLocust, TaskSet, task
-import json, base64
+import json, base64, io
 
 class ElbTasks(TaskSet):
   @task
@@ -18,7 +18,9 @@ class ElbTasks(TaskSet):
     #   fb.close()
 
     #   log = {"filename": open("/locust-tasks/B8:27:EB:1A:FD:FF-Logs-06-16-20-06-37PM.tgz", "rb")}
-      log = {"filename": base64.decodebytes(log_txt)}
+
+      body_file = io.BytesIO(base64.b64decode(log_txt))
+      log = {"filename": body_file.getbuffer().nbytes}
       self.client.post("/erdk/upload/device/log", files=log)
 
 class ElbWarmer(HttpLocust):
