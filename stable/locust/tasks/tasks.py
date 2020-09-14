@@ -8,7 +8,14 @@ class ElbTasks(TaskSet):
       telemetry = json.loads(open("/locust-tasks/rtl_json.txt", "r").read())
       # self.client.post("/erdk/upload/device/telemetry", data=json.dumps(telemetry))
       ts = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-      self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},{"mac":"FF:FF:FF:FF:FF:FF"},{"erouterIpv4":"192.168.2.36"},{"erouterIpv6":"null"},{"PartnerId":"RDKM"},{"AccountId":"Unknown"},{"Version":"rdkb-generic-broadband-image_default_20200619132645"},{"Time":ts}]}))
+      self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},
+                                                                                         {"mac":"FF:FF:FF:FF:FF:FF"},
+                                                                                         {"erouterIpv4":"192.168.2.36"},
+                                                                                         {"erouterIpv6":"null"},
+                                                                                         {"PartnerId":"RDKM"},
+                                                                                         {"AccountId":"Unknown"},
+                                                                                         {"Version":"rdkb-generic-broadband-image_default_20200619132645"}
+                                                                                         ,{"Time":ts}]}))
 
   @task
   def post_log(self):
@@ -16,11 +23,11 @@ class ElbTasks(TaskSet):
       log_txt = fl.read().replace('\n', '')
       fl.close()
 
-      fb = open("/tmp/B8:27:EB:1A:FD:FF-Logs-06-16-20-06-37PM.tgz", "wb")
+      fb = open("/tmp/FF:FF:FF:FF:FF:FF-Logs-09-15-20-01-00PM.tgz", "wb")
       fb.write(base64.b64decode(log_txt))
       fb.close()
 
-      log = {"filename": open("/tmp/B8:27:EB:1A:FD:FF-Logs-06-16-20-06-37PM.tgz", "rb")}
+      log = {"filename": open("/tmp/FF:FF:FF:FF:FF:FF-Logs-09-15-20-01-00PM.tgz", "rb")}
       self.client.post("/erdk/upload/device/log", files=log)
 
 class ElbWarmer(HttpLocust):
