@@ -2,7 +2,7 @@ Name: locust
 
 image:
   repository: greenbirdit/locust
-  tag: 0.9.0
+  tag: 0.14.5
   pullPolicy: IfNotPresent
   pullSecrets: []
 

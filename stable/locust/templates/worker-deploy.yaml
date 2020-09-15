@@ -47,7 +47,7 @@ spec:
         - name: LOCUST_MODE
           value: "worker"
         - name: LOCUST_MASTER
-          value: {{ template "locust.master-svc" . }}
+          value: {{ template "locust.master" . }}
         - name: LOCUST_MASTER_WEB
           value: "{{ .Values.service.internalPort }}"
         - name: TARGET_HOST
