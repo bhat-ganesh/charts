@@ -32,7 +32,7 @@ spec:
       containers:
       - name: locust
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        command: ['sh', '-c', 'locust -f /locust-tasks/locustfile.py --master']
+        command: ['sh', '-c', 'sleep 900']
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         resources:
 {{ toYaml .Values.master.resources | indent 10 }}
