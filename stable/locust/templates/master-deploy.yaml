@@ -32,6 +32,7 @@ spec:
       containers:
       - name: locust
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: ['sh', '-c', 'sleep 900']
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         resources:
 {{ toYaml .Values.master.resources | indent 10 }}
@@ -64,12 +65,12 @@ spec:
 {{ toYaml .Values.extraVolumeMounts | indent 10 }}
 {{- end }}
         livenessProbe:
-          periodSeconds: 30
+          periodSeconds: 900
           httpGet:
             path: /
             port: {{ .Values.service.internalPort }}
         readinessProbe:
-          periodSeconds: 30
+          periodSeconds: 900
           httpGet:
             path: /
             port: {{ .Values.service.internalPort }}
