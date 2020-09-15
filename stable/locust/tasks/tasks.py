@@ -2,7 +2,7 @@ from locust import HttpLocust, TaskSet, task
 from time import gmtime, strftime
 import json, base64
 
-class ElbTasks(TaskSet):
+class UploadEndpointTasks(TaskSet):
   @task
   def post_telemetry(self):
       telemetry = json.loads(open("/locust-tasks/rtl_json.txt", "r").read())
@@ -30,7 +30,7 @@ class ElbTasks(TaskSet):
       log = {"filename": open("/tmp/FF:FF:FF:FF:FF:FF-Logs-09-15-20-01-00PM.tgz", "rb")}
       self.client.post("/erdk/upload/device/log", files=log)
 
-class ElbWarmer(HttpLocust):
-  task_set = ElbTasks
+class UploadEndpointTest(HttpLocust):
+  task_set = UploadEndpointTasks
   min_wait = 1000
   max_wait = 3000
