@@ -1,8 +1,8 @@
 Name: locust
 
 image:
-  repository: greenbirdit/locust
-  tag: 0.9.0
+  repository: locustio/locust
+  tag: 1.2.3
   pullPolicy: IfNotPresent
   pullSecrets: []
 
