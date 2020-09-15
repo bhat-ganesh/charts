@@ -45,10 +45,8 @@ spec:
           value: {{ $value | quote }}
         {{- end }}
         - name: LOCUST_MODE
-          value: "slave"
+          value: "worker"
         - name: LOCUST_MASTER
-          value: "no"
-        - name: MASTER_HOST
           value: {{ template "locust.master-svc" . }}
         - name: LOCUST_MASTER_WEB
           value: "{{ .Values.service.internalPort }}"
