@@ -62,7 +62,7 @@ worker:
     # configmapName: locust-worker-configs
 
     # all files from specified configmap (or tasks folder) are mounted under `/locust-tasks`
-    locust-script: "/locust-tasks/tasks.py"
+    locust-script: "/locust-tasks/locustfile.py"
   replicaCount: 2
   resources:
     limits:
