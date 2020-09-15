@@ -32,7 +32,7 @@ spec:
       containers:
       - name: locust
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        command: ['sh', '-c', 'sleep 900']
+        command: ['sh', '-c', 'locust -f /locust-tasks/locustfile.py --worker --master-host=100.64.202.57']
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         volumeMounts:
           - name: locust-tasks
