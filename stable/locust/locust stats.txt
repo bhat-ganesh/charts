@@ -1,0 +1,31 @@
+2 workers:
+Current limits:
+    cpu: 100m
+    memory: 128Mi
+
+kubectl top pod -n locust
+Users - SpawnRate
+
+Idle
+NAME                             CPU(cores)   MEMORY(bytes)
+locust-master-845d67ddcd-d9c6s   2m           34Mi
+locust-worker-65954b675b-jrwtq   1m           79Mi
+locust-worker-65954b675b-nrdhz   1m           80Mi
+
+10 - 1 [RPS 3.4]
+NAME                             CPU(cores)   MEMORY(bytes)
+locust-master-845d67ddcd-d9c6s   2m           34Mi
+locust-worker-65954b675b-jrwtq   1m           37Mi
+locust-worker-65954b675b-nrdhz   1m           37Mi
+
+100 - 5 [RPS 38.2]
+NAME                             CPU(cores)   MEMORY(bytes)
+locust-master-845d67ddcd-d9c6s   3m           34Mi
+locust-worker-65954b675b-jrwtq   50m          79Mi
+locust-worker-65954b675b-nrdhz   48m          80Mi
+
+X 1000 - 50 [RPS ] ---> Pod crashed
+    1 worker pod restarted
+    incorrect worker count in locust
+    -> from above the pod is already at half its limit with [100 - 5].
+    -> this test was 10x hence failed. max supported would have been 2x
