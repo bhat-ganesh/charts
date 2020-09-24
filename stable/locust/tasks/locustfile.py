@@ -11,7 +11,7 @@ class LogTelemetryUploadTest(HttpUser):
       mac_arr = [ 0xB8, 0x27, 0xEB, random.randint(0x00, 0x7f), random.randint(0x00, 0xff), random.randint(0x00, 0xff) ]
       mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
 
-      self.client.post("/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},
+      self.client.post("/perfdev1/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},
                                                                                          {"mac":mac},
                                                                                          {"erouterIpv4":"192.168.2.36"},
                                                                                          {"erouterIpv6":"null"},
@@ -49,4 +49,4 @@ class LogTelemetryUploadTest(HttpUser):
               tar.add(log_path + filename, arcname=ts + filename)
 
       log = {"filename": open("/tmp/" + mac + "-Logs.tgz", "rb")}
-      self.client.post("/upload/device/log", files=log)
+      self.client.post("/perfdev1/upload/device/log", files=log)
