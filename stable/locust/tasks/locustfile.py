@@ -29,6 +29,9 @@ class LogTelemetryUploadTest(HttpUser):
       fl.close()
 
 
+      if not os.path.exists(log_path):
+          os.mkdir(log_path)
+
       fb = open(log_path + "FF:FF:FF:FF:FF:FF-Logs.tgz", "wb")
       fb.write(base64.b64decode(log_txt))
       fb.close()
