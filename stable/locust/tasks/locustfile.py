@@ -2,6 +2,7 @@
 
 from locust import HttpUser, task, between
 from time import gmtime, strftime
+from randmac import RandMac
 import json, base64, os, tarfile
 
 class LogTelemetryUploadTest(HttpUser):
@@ -10,8 +11,9 @@ class LogTelemetryUploadTest(HttpUser):
     @task
     def post_telemetry(self):
       ts = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+      mac = RandMac()
       self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},
-                                                                                         {"mac":"FF:FF:FF:FF:FF:FF"},
+                                                                                         {"mac":mac},
                                                                                          {"erouterIpv4":"192.168.2.36"},
                                                                                          {"erouterIpv6":"null"},
                                                                                          {"PartnerId":"RDKM"},
@@ -23,6 +25,7 @@ class LogTelemetryUploadTest(HttpUser):
     def post_log(self):
       ts = strftime("%m-%d-%y-%H-%M-%S-", gmtime())
       log_path = "/tmp/log/"
+      mac = RandMac()
 
       fl = open('/locust-tasks/log.txt', 'r')
       log_txt = fl.read().replace('\n', '')
@@ -40,11 +43,11 @@ class LogTelemetryUploadTest(HttpUser):
 
       os.remove(log_path + "log.tgz")
 
-      with tarfile.open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "w:gz") as tar:
+      with tarfile.open("/tmp/" + mac + "-Logs.tgz", "w:gz") as tar:
           for filename in os.listdir(log_path):
               tar.add(log_path + filename, arcname=ts + filename)
 
-      log = {"filename": open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "rb")}
+      log = {"filename": open("/tmp/" + mac + "-Logs.tgz", "rb")}
       self.client.post("/erdk/upload/device/log", files=log)
 
 
