@@ -5,7 +5,7 @@ from time import gmtime, strftime
 import json, base64, os, tarfile
 
 class LogTelemetryUploadTest(HttpUser):
-    wait_time = between(1, 2)
+    wait_time = between(3, 5)
 
     @task
     def post_telemetry(self):
