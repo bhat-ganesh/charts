@@ -14,7 +14,6 @@ class LogTelemetryUploadTest(HttpUser):
 
     @task
     def post_telemetry(self):
-      mac = RandMac()
       self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},
                                                                                          {"mac":mac},
                                                                                          {"erouterIpv4":"192.168.2.36"},
@@ -27,7 +26,6 @@ class LogTelemetryUploadTest(HttpUser):
     @task
     def post_log(self):
       log_path = "/tmp/log/"
-      mac = RandMac()
 
       fl = open('/locust-tasks/log.txt', 'r')
       log_txt = fl.read().replace('\n', '')
