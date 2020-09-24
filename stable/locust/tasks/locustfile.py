@@ -10,8 +10,8 @@ class LogTelemetryUploadTest(HttpUser):
     @task
     def post_telemetry(self):
       ts = strftime("%m-%d-%y-%H-%M-%S-", gmtime())
-      random = [ 0xB8, 0x27, 0xEB, random.randint(0x00, 0x7f), random.randint(0x00, 0xff), random.randint(0x00, 0xff) ]
-      mac = ':'.join(map(lambda x: "%02x" % x, random))
+      mac_arr = [ 0xB8, 0x27, 0xEB, random.randint(0x00, 0x7f), random.randint(0x00, 0xff), random.randint(0x00, 0xff) ]
+      mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
 
       self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},
                                                                                          {"mac":mac},
@@ -25,8 +25,8 @@ class LogTelemetryUploadTest(HttpUser):
     @task
     def post_log(self):
       ts = strftime("%m-%d-%y-%H-%M-%S-", gmtime())
-      random = [ 0xB8, 0x27, 0xEB, random.randint(0x00, 0x7f), random.randint(0x00, 0xff), random.randint(0x00, 0xff) ]
-      mac = ':'.join(map(lambda x: "%02x" % x, random))
+      mac_arr = [ 0xB8, 0x27, 0xEB, random.randint(0x00, 0x7f), random.randint(0x00, 0xff), random.randint(0x00, 0xff) ]
+      mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
 
       log_path = "/tmp/log/"
 
