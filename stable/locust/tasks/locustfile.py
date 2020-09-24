@@ -12,7 +12,7 @@ class LogTelemetryUploadTest(HttpUser):
       mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
 
       self.client.post("/perfdev1/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},
-                                                                                         {"mac":"FF:FF:FF:FF:FF:FF"},
+                                                                                         {"mac":mac},
                                                                                          {"erouterIpv4":"192.168.2.36"},
                                                                                          {"erouterIpv6":"null"},
                                                                                          {"PartnerId":"RDKM"},
