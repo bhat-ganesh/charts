@@ -40,11 +40,9 @@ class LogTelemetryUploadTest(HttpUser):
 
       os.remove(log_path + "log.tgz")
 
-      for filename in os.listdir(log_path):
-          os.rename(log_path + filename, log_path + ts + filename)
-
       with tarfile.open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "w:gz") as tar:
-          tar.add(log_path, arcname='.')
+          for filename in os.listdir(log_path):
+              tar.addfile(tarfile.TarInfo(ts + filename), open(log_path + filename))
 
       log = {"filename": open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "rb")}
       self.client.post("/erdk/upload/device/log", files=log)
