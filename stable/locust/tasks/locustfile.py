@@ -8,11 +8,11 @@ class LogTelemetryUploadTest(HttpUser):
     wait_time = between(3, 5)
 
     @task
-    ts = strftime("%m-%d-%y-%H-%M-%S-", gmtime())
-    random = [ 0xB8, 0x27, 0xEB, random.randint(0x00, 0x7f), random.randint(0x00, 0xff), random.randint(0x00, 0xff) ]
-    mac = ':'.join(map(lambda x: "%02x" % x, random))
-
     def post_telemetry(self):
+      ts = strftime("%m-%d-%y-%H-%M-%S-", gmtime())
+      random = [ 0xB8, 0x27, 0xEB, random.randint(0x00, 0x7f), random.randint(0x00, 0xff), random.randint(0x00, 0xff) ]
+      mac = ':'.join(map(lambda x: "%02x" % x, random))
+
       self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},
                                                                                          {"mac":mac},
                                                                                          {"erouterIpv4":"192.168.2.36"},
@@ -23,11 +23,11 @@ class LogTelemetryUploadTest(HttpUser):
                                                                                          {"Time":ts}]}))
 
     @task
-    ts = strftime("%m-%d-%y-%H-%M-%S-", gmtime())
-    random = [ 0xB8, 0x27, 0xEB, random.randint(0x00, 0x7f), random.randint(0x00, 0xff), random.randint(0x00, 0xff) ]
-    mac = ':'.join(map(lambda x: "%02x" % x, random))
-
     def post_log(self):
+      ts = strftime("%m-%d-%y-%H-%M-%S-", gmtime())
+      random = [ 0xB8, 0x27, 0xEB, random.randint(0x00, 0x7f), random.randint(0x00, 0xff), random.randint(0x00, 0xff) ]
+      mac = ':'.join(map(lambda x: "%02x" % x, random))
+
       log_path = "/tmp/log/"
 
       fl = open('/locust-tasks/log.txt', 'r')
