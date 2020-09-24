@@ -28,26 +28,35 @@ class LogTelemetryUploadTest(HttpUser):
       log_txt = fl.read().replace('\n', '')
       fl.close()
 
-      if not os.path.exists(log_path):
-          os.mkdir(log_path)
 
-      fb = open(log_path + "log.tgz", "wb")
+      fb = open(log_path + "FF:FF:FF:FF:FF:FF-Logs.tgz", "wb")
       fb.write(base64.b64decode(log_txt))
       fb.close()
 
-      with tarfile.open(log_path + "log.tgz", "r") as tar:
-        tar.extractall()
-
-      os.remove(log_path + "log.tgz")
-
-      for filename in os.listdir(log_path):
-          os.rename(log_path + filename, log_path + ts + filename)
-
-      with tarfile.open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "w:gz") as tar:
-          tar.add(log_path, arcname=os.path.basename(log_path))
-
-      log = {"filename": open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "rb")}
+      log = {"filename": open(log_path + "FF:FF:FF:FF:FF:FF-Logs.tgz", "rb")}
       self.client.post("/erdk/upload/device/log", files=log)
+
+
+      # if not os.path.exists(log_path):
+      #     os.mkdir(log_path)
+
+      # fb = open(log_path + "log.tgz", "wb")
+      # fb.write(base64.b64decode(log_txt))
+      # fb.close()
+
+      # with tarfile.open(log_path + "log.tgz", "r") as tar:
+      #   tar.extractall()
+
+      # os.remove(log_path + "log.tgz")
+
+      # for filename in os.listdir(log_path):
+      #     os.rename(log_path + filename, log_path + ts + filename)
+
+      # with tarfile.open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "w:gz") as tar:
+      #     tar.add(log_path, arcname=os.path.basename(log_path))
+
+      # log = {"filename": open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "rb")}
+      # self.client.post("/erdk/upload/device/log", files=log)
 
 #############################################################################################################################################################
 
@@ -76,11 +85,11 @@ class LogTelemetryUploadTest(HttpUser):
 #       log_txt = fl.read().replace('\n', '')
 #       fl.close()
 
-#       fb = open("/tmp/FF:FF:FF:FF:FF:FF-Logs-09-15-20-01-00PM.tgz", "wb")
+#       fb = open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "wb")
 #       fb.write(base64.b64decode(log_txt))
 #       fb.close()
 
-#       log = {"filename": open("/tmp/FF:FF:FF:FF:FF:FF-Logs-09-15-20-01-00PM.tgz", "rb")}
+#       log = {"filename": open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "rb")}
 #       self.client.post("/erdk/upload/device/log", files=log)
 
 # class UploadEndpointTest(HttpLocust):
