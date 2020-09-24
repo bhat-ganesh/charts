@@ -15,13 +15,13 @@ class LogTelemetryUploadTest(HttpUser):
     @task
     def post_telemetry(self):
       self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},
-                                                                                         {"mac":mac},
+                                                                                         {"mac":self.mac},
                                                                                          {"erouterIpv4":"192.168.2.36"},
                                                                                          {"erouterIpv6":"null"},
                                                                                          {"PartnerId":"RDKM"},
                                                                                          {"AccountId":"Unknown"},
                                                                                          {"Version":"rdkb-generic-broadband-image_default_20200619132645"},
-                                                                                         {"Time":telemetry_ts}]}))
+                                                                                         {"Time":self.telemetry_ts}]}))
 
     @task
     def post_log(self):
@@ -43,11 +43,11 @@ class LogTelemetryUploadTest(HttpUser):
 
       os.remove(log_path + "log.tgz")
 
-      with tarfile.open("/tmp/" + mac + "-Logs.tgz", "w:gz") as tar:
+      with tarfile.open("/tmp/" + self.mac + "-Logs.tgz", "w:gz") as tar:
           for filename in os.listdir(log_path):
-              tar.add(log_path + filename, arcname=log_ts + filename)
+              tar.add(log_path + filename, arcname=self.log_ts + filename)
 
-      log = {"filename": open("/tmp/" + mac + "-Logs.tgz", "rb")}
+      log = {"filename": open("/tmp/" + self.mac + "-Logs.tgz", "rb")}
       self.client.post("/erdk/upload/device/log", files=log)
 
 
