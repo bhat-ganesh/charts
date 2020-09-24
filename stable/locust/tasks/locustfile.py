@@ -7,7 +7,7 @@ class LogTelemetryUploadTest(HttpUser):
 
     @task
     def post_telemetry(self):
-      ts = strftime("%m-%d-%y-%H-%M-%S-", gmtime())
+      ts = strftime("%Y-%m-%d %H:%M:%S", gmtime())
       mac_arr = [ 0xB8, 0x27, 0xEB, random.randint(0x00, 0x7f), random.randint(0x00, 0xff), random.randint(0x00, 0xff) ]
       mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
 
