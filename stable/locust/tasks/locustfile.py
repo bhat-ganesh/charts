@@ -21,45 +21,44 @@ class LogTelemetryUploadTest(HttpUser):
 
     @task
     def post_log(self):
-      ts = strftime("%Y-%m-%d-%H-%M-%S-", gmtime())
+      ts = strftime("%m-%d-%y-%H-%M-%S-", gmtime())
       log_path = "/tmp/log/"
 
       fl = open('/locust-tasks/log.txt', 'r')
       log_txt = fl.read().replace('\n', '')
       fl.close()
 
-
       if not os.path.exists(log_path):
           os.mkdir(log_path)
 
-      fb = open(log_path + "FF:FF:FF:FF:FF:FF-Logs.tgz", "wb")
+      fb = open(log_path + "log.tgz", "wb")
       fb.write(base64.b64decode(log_txt))
       fb.close()
 
-      log = {"filename": open(log_path + "FF:FF:FF:FF:FF:FF-Logs.tgz", "rb")}
+      with tarfile.open(log_path + "log.tgz", "r") as tar:
+        tar.extractall()
+
+      os.remove(log_path + "log.tgz")
+
+      for filename in os.listdir(log_path):
+          os.rename(log_path + filename, log_path + ts + filename)
+
+      with tarfile.open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "w:gz") as tar:
+          tar.add(log_path, arcname='.')
+
+      log = {"filename": open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "rb")}
       self.client.post("/erdk/upload/device/log", files=log)
 
 
-      # if not os.path.exists(log_path):
-      #     os.mkdir(log_path)
 
-      # fb = open(log_path + "log.tgz", "wb")
+      # old code, same file without ts --> start
+      # fb = open(log_path + "FF:FF:FF:FF:FF:FF-Logs.tgz", "wb")
       # fb.write(base64.b64decode(log_txt))
       # fb.close()
 
-      # with tarfile.open(log_path + "log.tgz", "r") as tar:
-      #   tar.extractall()
-
-      # os.remove(log_path + "log.tgz")
-
-      # for filename in os.listdir(log_path):
-      #     os.rename(log_path + filename, log_path + ts + filename)
-
-      # with tarfile.open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "w:gz") as tar:
-      #     tar.add(log_path, arcname=os.path.basename(log_path))
-
-      # log = {"filename": open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "rb")}
+      # log = {"filename": open(log_path + "FF:FF:FF:FF:FF:FF-Logs.tgz", "rb")}
       # self.client.post("/erdk/upload/device/log", files=log)
+      # old code, same file without ts --> end
 
 #############################################################################################################################################################
 
