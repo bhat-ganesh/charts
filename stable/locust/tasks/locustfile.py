@@ -42,7 +42,7 @@ class LogTelemetryUploadTest(HttpUser):
 
       with tarfile.open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "w:gz") as tar:
           for filename in os.listdir(log_path):
-              tar.addfile(tarfile.TarInfo(ts + filename), open(log_path + filename))
+              tar.add(log_path + filename, arcname=ts + filename)
 
       log = {"filename": open("/tmp/FF:FF:FF:FF:FF:FF-Logs.tgz", "rb")}
       self.client.post("/erdk/upload/device/log", files=log)
