@@ -6,9 +6,6 @@ image:
   pullPolicy: IfNotPresent
   pullSecrets: []
 
-initFile: |-
-  pip3 install randmac
-
 service:
   name: master-web
   type: ClusterIP

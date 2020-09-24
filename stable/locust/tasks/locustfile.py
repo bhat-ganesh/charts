@@ -2,15 +2,18 @@
 
 from locust import HttpUser, task, between
 from time import gmtime, strftime
-from randmac import RandMac
-import json, base64, os, tarfile
+import json, base64, os, tarfile, random
 
 class LogTelemetryUploadTest(HttpUser):
     wait_time = between(3, 5)
+    cur_time = gmtime()
+    telemetry_ts = strftime("%Y-%m-%d %H:%M:%S", cur_time)
+    log_ts = strftime("%m-%d-%y-%H-%M-%S-", cur_time)
+    random = [ 0xB8, 0x27, 0xEB, random.randint(0x00, 0x7f), random.randint(0x00, 0xff), random.randint(0x00, 0xff) ]
+    mac = ':'.join(map(lambda x: "%02x" % x, random))
 
     @task
     def post_telemetry(self):
-      ts = strftime("%Y-%m-%d %H:%M:%S", gmtime())
       mac = RandMac()
       self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},
                                                                                          {"mac":mac},
@@ -19,11 +22,10 @@ class LogTelemetryUploadTest(HttpUser):
                                                                                          {"PartnerId":"RDKM"},
                                                                                          {"AccountId":"Unknown"},
                                                                                          {"Version":"rdkb-generic-broadband-image_default_20200619132645"},
-                                                                                         {"Time":ts}]}))
+                                                                                         {"Time":telemetry_ts}]}))
 
     @task
     def post_log(self):
-      ts = strftime("%m-%d-%y-%H-%M-%S-", gmtime())
       log_path = "/tmp/log/"
       mac = RandMac()
 
@@ -45,7 +47,7 @@ class LogTelemetryUploadTest(HttpUser):
 
       with tarfile.open("/tmp/" + mac + "-Logs.tgz", "w:gz") as tar:
           for filename in os.listdir(log_path):
-              tar.add(log_path + filename, arcname=ts + filename)
+              tar.add(log_path + filename, arcname=log_ts + filename)
 
       log = {"filename": open("/tmp/" + mac + "-Logs.tgz", "rb")}
       self.client.post("/erdk/upload/device/log", files=log)
