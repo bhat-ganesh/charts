@@ -36,7 +36,7 @@ class LogTelemetryUploadTest(HttpUser):
       fb.close()
 
       with tarfile.open(log_path + "log.tgz", "r") as tar:
-        tar.extractall()
+        tar.extractall(path=log_path)
 
       os.remove(log_path + "log.tgz")
 
