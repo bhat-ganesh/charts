@@ -19,6 +19,7 @@ class LogTelemetryUploadTest(HttpUser):
                                                                                          {"AccountId":"Unknown"},
                                                                                          {"Version":"rdkb-generic-broadband-image_default_20200619132645"},
                                                                                          {"Time":ts}]}), catch_response=True) as response:
+        print(response)
         if response.status_code != 200:
           response.failure("Telemetry upload failed with code " + response.status_code)
 
