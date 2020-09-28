@@ -11,14 +11,16 @@ class LogTelemetryUploadTest(HttpUser):
       mac_arr = [ 0xB8, 0x27, 0xEB, random.randint(0x00, 0x7f), random.randint(0x00, 0xff), random.randint(0x00, 0xff) ]
       mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
 
-      self.client.post("/perfdev1/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},
+      with self.client.post("/perfdev1/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},
                                                                                          {"mac":mac},
                                                                                          {"erouterIpv4":"192.168.2.36"},
                                                                                          {"erouterIpv6":"null"},
                                                                                          {"PartnerId":"RDKM"},
                                                                                          {"AccountId":"Unknown"},
                                                                                          {"Version":"rdkb-generic-broadband-image_default_20200619132645"},
-                                                                                         {"Time":ts}]}))
+                                                                                         {"Time":ts}]}), catch_response=True) as response:
+        if response.status_code != 200:
+          response.failure("Telemetry upload failed with code " + response.status_code)
 
     @task
     def post_log(self):
@@ -33,7 +35,7 @@ class LogTelemetryUploadTest(HttpUser):
       fl.close()
 
       if not os.path.exists(log_path):
-          os.mkdir(log_path)
+        os.mkdir(log_path)
 
       fb = open(log_path + "log.tgz", "wb")
       fb.write(base64.b64decode(log_txt))
@@ -45,8 +47,10 @@ class LogTelemetryUploadTest(HttpUser):
       os.remove(log_path + "log.tgz")
 
       with tarfile.open("/tmp/" + mac + "-Logs.tgz", "w:gz") as tar:
-          for filename in os.listdir(log_path):
-              tar.add(log_path + filename, arcname=ts + filename)
+        for filename in os.listdir(log_path):
+          tar.add(log_path + filename, arcname=ts + filename)
 
       log = {"filename": open("/tmp/" + mac + "-Logs.tgz", "rb")}
-      self.client.post("/perfdev1/upload/device/log", files=log)
+      with self.client.post("/perfdev1/upload/device/log", files=log, catch_response=True) as response:
+        if response.status_code != 200:
+          response.failure("Log upload failed with code " + response.status_code)
