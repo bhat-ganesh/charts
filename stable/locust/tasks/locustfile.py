@@ -19,9 +19,8 @@ class LogTelemetryUploadTest(HttpUser):
                                                                                          {"AccountId":"Unknown"},
                                                                                          {"Version":"rdkb-generic-broadband-image_default_20200619132645"},
                                                                                          {"Time":ts}]}), catch_response=True) as response:
-        print(response)
         if response.status_code != 200:
-          response.failure("Telemetry upload failed with code " + response.status_code)
+          response.failure("Telemetry upload failed with code " + str(response.status_code))
 
     @task
     def post_log(self):
@@ -54,4 +53,4 @@ class LogTelemetryUploadTest(HttpUser):
       log = {"filename": open("/tmp/" + mac + "-Logs.tgz", "rb")}
       with self.client.post("/perfdev1/upload/device/log", files=log, catch_response=True) as response:
         if response.status_code != 200:
-          response.failure("Log upload failed with code " + response.status_code)
+          response.failure("Log upload failed with code " + str(response.status_code))
