@@ -99,7 +99,8 @@ locust-worker-585ffbd4b-xv78t    81m          1659Mi
 
 
 
-
+1000 -> 500MB
+50000 -> 25000MB
 
 
 

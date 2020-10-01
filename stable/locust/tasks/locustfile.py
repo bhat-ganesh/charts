@@ -8,7 +8,7 @@ class LogTelemetryUploadTest(HttpUser):
     @task
     def post_telemetry(self):
       ts = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-      mac_arr = [ 0xB8, 0x27, 0xEB, 0X00, random.randint(0x00, 0xC3), random.randint(0x00, 0xFF) ]
+      mac_arr = [ 0xB8, 0x27, 0xEB, 0X00, random.randint(0x00, 0xFF), random.randint(0x00, 0xFF) ]
       mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
 
       with self.client.post("/perfdev1/upload/device/telemetry", data=json.dumps({"searchResult":[{"Profile":"RDKB"},
