@@ -46,7 +46,19 @@ locust-worker-585ffbd4b-x9f85    67m          1659Mi
 locust-worker-585ffbd4b-xv78t    81m          1659Mi
 
 
-
+# 15Ku 50s 5w  [60, 61] ---> simulating ~75K
+NAME                          CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
+ip-10-80-4-135.ec2.internal   199m         4%     2928Mi          18%
+ip-10-80-4-92.ec2.internal    400m         5%     3464Mi          10%
+ip-10-80-5-190.ec2.internal   382m         4%     5465Mi          17%
+ip-10-80-5-65.ec2.internal    186m         4%     2958Mi          18%
+NAME                             CPU(cores)   MEMORY(bytes)
+locust-master-5c5f6d67bd-m7hzr   5m           33Mi
+locust-worker-585ffbd4b-4rckw    109m         2477Mi
+locust-worker-585ffbd4b-brzw6    127m         2476Mi
+locust-worker-585ffbd4b-jfpsv    134m         2476Mi
+locust-worker-585ffbd4b-qq5sd    112m         2476Mi
+locust-worker-585ffbd4b-r4gw6    110m         2476Mi
 
 
 
