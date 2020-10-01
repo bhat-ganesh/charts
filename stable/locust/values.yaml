@@ -63,14 +63,14 @@ worker:
 
     # all files from specified configmap (or tasks folder) are mounted under `/locust-tasks`
     locust-script: "/locust-tasks/locustfile.py"
-  replicaCount: 8
+  replicaCount: 10
   resources:
     limits:
       cpu: 1024m
-      memory: 3Gi
+      memory: 4Gi
     requests:
       cpu: 1024m
-      memory: 2Gi
+      memory: 4Gi
   nodeSelector: {}
     # kops.k8s.io/instancegroup: worker
   tolerations: []
