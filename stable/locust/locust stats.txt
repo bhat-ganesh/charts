@@ -1,3 +1,55 @@
+1000u 100s 5w
+
+927 uploads 16279 objects, 389.8 MB
+
+1084 uploads 19512 objects, 467.3 MB
+
+1072 uploads 19296 objects, 462.1 MB
+1 failure -> "CatchResponseError('Log upload failed with code 504')"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 2 workers:
 Current limits:
     cpu: 100m
@@ -54,3 +106,7 @@ NAME                             CPU(cores)   MEMORY(bytes)
 locust-master-754ddbccb6-v7s7w   3m           33Mi
 locust-worker-865659b668-c4mkt   1m           2380Mi
 locust-worker-865659b668-nqz4c   1m           2350Mi
+
+
+
+
