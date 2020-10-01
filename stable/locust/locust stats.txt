@@ -1,4 +1,4 @@
-# Before start
+# TELEMETRY Before start
 
 Thu Oct 01 02:19 PM root@vpc-bijay-common-deployer-bijay-cd:~/locust-experiments/kubernetes(master)$ k top nodes; k top pod -n locust
 NAME                          CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
@@ -60,13 +60,59 @@ locust-worker-585ffbd4b-jfpsv    134m         2476Mi
 locust-worker-585ffbd4b-qq5sd    112m         2476Mi
 locust-worker-585ffbd4b-r4gw6    110m         2476Mi
 
+# TELEMETRY End
+
+# LOG Before start
+
+Thu Oct 01 04:00 PM root@vpc-bijay-common-deployer-bijay-cd:~/locust-experiments/kubernetes(master)$ k top nodes; k top pod -n locust
+NAME                          CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
+ip-10-80-4-135.ec2.internal   107m         2%     690Mi           4%
+ip-10-80-4-92.ec2.internal    266m         3%     1193Mi          3%
+ip-10-80-5-190.ec2.internal   110m         1%     890Mi           2%
+ip-10-80-5-65.ec2.internal    83m          2%     688Mi           4%
+NAME                             CPU(cores)   MEMORY(bytes)
+locust-master-5c5f6d67bd-gz4xh   4m           32Mi
+locust-worker-585ffbd4b-2vwsw    33m          201Mi
+locust-worker-585ffbd4b-6zh8l    7m           201Mi
+locust-worker-585ffbd4b-mcslb    132m         201Mi
+locust-worker-585ffbd4b-w5mxg    9m           201Mi
+locust-worker-585ffbd4b-zjb4d    102m         201Mi
+
+# 1000u 20s 5w [60, 61] RPS ~20
+Thu Oct 01 04:32 PM root@vpc-bijay-common-deployer-bijay-cd:~/locust-experiments/kubernetes(master)$ k top nodes; k top pod -n locust
+NAME                          CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
+ip-10-80-4-135.ec2.internal   195m         4%     691Mi           4%
+ip-10-80-4-92.ec2.internal    300m         3%     1196Mi          3%
+ip-10-80-5-190.ec2.internal   194m         2%     893Mi           2%
+ip-10-80-5-65.ec2.internal    154m         3%     690Mi           4%
+NAME                             CPU(cores)   MEMORY(bytes)
+locust-master-5c5f6d67bd-gz4xh   4m           32Mi
+locust-worker-585ffbd4b-2vwsw    57m          205Mi
+locust-worker-585ffbd4b-6zh8l    116m         205Mi
+locust-worker-585ffbd4b-mcslb    45m          205Mi
+locust-worker-585ffbd4b-w5mxg    76m          204Mi
+locust-worker-585ffbd4b-zjb4d    135m         205Mi
+
+# 5000u 50s 5w [60, 61] RPS ~90
+Thu Oct 01 04:34 PM root@vpc-bijay-common-deployer-bijay-cd:~/locust-experiments/kubernetes(master)$ k top nodes; k top pod -n locust
+NAME                          CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
+ip-10-80-4-135.ec2.internal   466m         11%    1362Mi          8%
+ip-10-80-4-92.ec2.internal    689m         8%     1866Mi          5%
+ip-10-80-5-190.ec2.internal   574m         7%     2224Mi          6%
+ip-10-80-5-65.ec2.internal    407m         10%    1354Mi          8%
+NAME                             CPU(cores)   MEMORY(bytes)
+locust-master-5c5f6d67bd-gz4xh   5m           32Mi
+locust-worker-585ffbd4b-2vwsw    539m         917Mi
+locust-worker-585ffbd4b-6zh8l    297m         920Mi
+locust-worker-585ffbd4b-mcslb    576m         919Mi
+locust-worker-585ffbd4b-w5mxg    266m         922Mi
+locust-worker-585ffbd4b-zjb4d    373m         919Mi
+
+# 10000u 50s 5w [60, 61] RPS ~
 
 
 
-
-
-
-
+# LOG End
 
 
 
