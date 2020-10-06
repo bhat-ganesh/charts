@@ -60,6 +60,12 @@ locust-worker-585ffbd4b-jfpsv    134m         2476Mi
 locust-worker-585ffbd4b-qq5sd    112m         2476Mi
 locust-worker-585ffbd4b-r4gw6    110m         2476Mi
 
+
+# lambda timeout
+2020-10-01T17:30:24.218-04:00 START RequestId: 39ca434d-fbe9-4a61-8c5c-ad22e13ebd9a Version: $LATEST
+2020-10-01T17:30:24.218-04:00 END RequestId: 39ca434d-fbe9-4a61-8c5c-ad22e13ebd9a
+2020-10-01T17:30:24.218-04:00 REPORT RequestId: 39ca434d-fbe9-4a61-8c5c-ad22e13ebd9a	Duration: 60060.34 ms	Billed Duration: 60000 ms	Memory Size: 128 MB	Max Memory Used: 46 MB	
+2020-10-01T17:30:24.218-04:00 2020-10-01T21:31:24.282Z 39ca434d-fbe9-4a61-8c5c-ad22e13ebd9a Task timed out after 60.06 seconds
 # TELEMETRY End
 
 # LOG Before start
@@ -108,9 +114,18 @@ locust-worker-585ffbd4b-mcslb    576m         919Mi
 locust-worker-585ffbd4b-w5mxg    266m         922Mi
 locust-worker-585ffbd4b-zjb4d    373m         919Mi
 
-# 10000u 50s 5w [60, 61] RPS ~
+# 10000u 50s 5w [60, 61] RPS ~180
+Issues observed with lambda [500, 504]
 
 
+# Analysis
+
+100000 devices uploading 2 times a day = 200000 uploads = 2.31 uploads/s
+Log upload holding steady at 90RPS -> 5000u 50s 5w [60, 61] RPS ~90
+
+1 tgz is around 500KB
+1000 uploads corresponds to about 500MB
+200000 uploads = 100GB/day = 3TB/month = $70.54/month [only for storage - at rest]
 
 # LOG End
 
