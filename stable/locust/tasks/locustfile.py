@@ -10,7 +10,7 @@ class LogTelemetryUploadTest(HttpUser):
       ts = strftime("%Y-%m-%d %H:%M:%S", gmtime())
       mac_arr = [ 0xB8, 0x27, 0xEB, 0XFF, random.randint(0x00, 0xFF), random.randint(0x00, 0xFF) ]
       mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
-      markers = [{'example_'+str(x): random.randint(0,100)} for x in range(0,10)]
+      markers = [{'example_'+str(x): random.randint(0,100)} for x in range(0,4)]
       markers.append({"Time": ts})
       markers.append({"mac": mac})
       markers.append({"Version":"rdkb-generic-broadband-image_default_2020_bad"})
@@ -25,7 +25,11 @@ class LogTelemetryUploadTest(HttpUser):
       ts = strftime("%Y-%m-%d %H:%M:%S", gmtime())
       mac_arr = [ 0xB8, 0x27, 0xEB, 0XFF, random.randint(0x00, 0xFF), random.randint(0x00, 0xFF) ]
       mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
-      markers = [{'example_'+str(x): random.randint(50,150)} for x in range(0,10)]
+      # markers = [{'example_'+str(x): random.randint(50,150)} for x in range(0,4)]
+      markers.append({"example_0": random.randint(0,100)})
+      markers.append({"example_1": random.randint(0,100)})
+      markers.append({"example_2": random.randint(50,150)})
+      markers.append({"example_3": random.randint(50,150)})
       markers.append({"Time": ts})
       markers.append({"mac": mac})
       markers.append({"Version":"rdkb-generic-broadband-image_default_2021_good"})
