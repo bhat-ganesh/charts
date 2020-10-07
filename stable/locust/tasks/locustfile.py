@@ -29,8 +29,8 @@ class LogTelemetryUploadTest(HttpUser):
       # mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
       # markers_good = [{'example_'+str(x): random.randint(50,150)} for x in range(0,4)]
       markers_good = []
-      markers_good.append({"example_0": random.randint(0,50)})
-      markers_good.append({"example_1": random.randint(0,50)})
+      markers_good.append({"example_0": random.randint(0,80)})
+      markers_good.append({"example_1": random.randint(0,80)})
       markers_good.append({"example_2": random.randint(50,150)})
       markers_good.append({"example_3": random.randint(50,150)})
       markers_good.append({"Time": ts})
