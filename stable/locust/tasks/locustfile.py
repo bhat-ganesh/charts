@@ -20,21 +20,21 @@ class LogTelemetryUploadTest(HttpUser):
           response.failure("Telemetry upload failed with code " + str(response.status_code))
 
 
-    @task
-    def post_telemetry2(self):
-      ts = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-      mac_arr = [ 0xB8, 0x27, 0xEB, 0XFF, random.randint(0x00, 0xFF), random.randint(0x00, 0xFF) ]
-      mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
-      # markers = [{'example_'+str(x): random.randint(50,150)} for x in range(0,4)]
-      markers.append({"example_0": random.randint(0,100)})
-      markers.append({"example_1": random.randint(0,100)})
-      markers.append({"example_2": random.randint(50,150)})
-      markers.append({"example_3": random.randint(50,150)})
-      markers.append({"Time": ts})
-      markers.append({"mac": mac})
-      markers.append({"Version":"rdkb-generic-broadband-image_default_2021_good"})
+    # @task
+    # def post_telemetry2(self):
+      # ts = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+      # mac_arr = [ 0xB8, 0x27, 0xEB, 0XFF, random.randint(0x00, 0xFF), random.randint(0x00, 0xFF) ]
+      # mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
+      # markers_good = [{'example_'+str(x): random.randint(50,150)} for x in range(0,4)]
+      markers_good.append({"example_0": random.randint(0,100)})
+      markers_good.append({"example_1": random.randint(0,100)})
+      markers_good.append({"example_2": random.randint(50,150)})
+      markers_good.append({"example_3": random.randint(50,150)})
+      markers_good.append({"Time": ts})
+      markers_good.append({"mac": mac})
+      markers_good.append({"Version":"rdkb-generic-broadband-image_default_2021_good"})
 
-      with self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":markers}), catch_response=True) as response:
+      with self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":markers_good}), catch_response=True) as response:
         if response.status_code != 200:
           response.failure("Telemetry upload failed with code " + str(response.status_code))
 
