@@ -15,7 +15,7 @@ class LogTelemetryUploadTest(HttpUser):
       markers.append({"mac": mac})
       markers.append({"Version":"rdkb-generic-broadband-image_default_2020_bad"})
 
-      with self.client.post("/perfdev1/upload/device/telemetry", data=json.dumps({"searchResult":markers}), catch_response=True) as response:
+      with self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":markers}), catch_response=True) as response:
         if response.status_code != 200:
           response.failure("Telemetry upload failed with code " + str(response.status_code))
 
@@ -30,7 +30,7 @@ class LogTelemetryUploadTest(HttpUser):
       markers.append({"mac": mac})
       markers.append({"Version":"rdkb-generic-broadband-image_default_2021_good"})
 
-      with self.client.post("/perfdev1/upload/device/telemetry", data=json.dumps({"searchResult":markers}), catch_response=True) as response:
+      with self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":markers}), catch_response=True) as response:
         if response.status_code != 200:
           response.failure("Telemetry upload failed with code " + str(response.status_code))
 
