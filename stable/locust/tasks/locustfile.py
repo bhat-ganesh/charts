@@ -3,22 +3,37 @@ from time import gmtime, strftime
 import json, base64, os, tarfile, random
 
 class LogTelemetryUploadTest(HttpUser):
-    wait_time = between(60, 61)
+    wait_time = between(10, 20)
 
     @task
-    def post_telemetry(self):
+    def post_telemetry1(self):
       ts = strftime("%Y-%m-%d %H:%M:%S", gmtime())
       mac_arr = [ 0xB8, 0x27, 0xEB, 0XFF, random.randint(0x00, 0xFF), random.randint(0x00, 0xFF) ]
       mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
       markers = [{'example_'+str(x): random.randint(0,100)} for x in range(0,10)]
       markers.append({"Time": ts})
       markers.append({"mac": mac})
-      markers.append({"Version":"rdkb-generic-broadband-image_default_20201007164436-good"})
-      # markers.append({"Version":"rdkb-generic-broadband-image_default_20201007164436-bad"})
+      markers.append({"Version":"rdkb-generic-broadband-image_default_2020_bad"})
 
       with self.client.post("/perfdev1/upload/device/telemetry", data=json.dumps({"searchResult":markers}), catch_response=True) as response:
         if response.status_code != 200:
           response.failure("Telemetry upload failed with code " + str(response.status_code))
+
+
+    @task
+    def post_telemetry2(self):
+      ts = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+      mac_arr = [ 0xB8, 0x27, 0xEB, 0XFF, random.randint(0x00, 0xFF), random.randint(0x00, 0xFF) ]
+      mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
+      markers = [{'example_'+str(x): random.randint(50,150)} for x in range(0,10)]
+      markers.append({"Time": ts})
+      markers.append({"mac": mac})
+      markers.append({"Version":"rdkb-generic-broadband-image_default_2021_good"})
+
+      with self.client.post("/perfdev1/upload/device/telemetry", data=json.dumps({"searchResult":markers}), catch_response=True) as response:
+        if response.status_code != 200:
+          response.failure("Telemetry upload failed with code " + str(response.status_code))
+
 
     # @task
     # def post_log(self):
