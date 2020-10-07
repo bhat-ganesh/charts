@@ -13,9 +13,8 @@ class LogTelemetryUploadTest(HttpUser):
       markers = [{'example_'+str(x): random.randint(0,100)} for x in range(0,4)]
       markers.append({"Time": ts})
       markers.append({"mac": mac})
-      markers.append({"Version":"rdkb-generic-broadband-image_default_2020_bad"})
+      markers.append({"Version": "rdkb-generic-broadband-image_default_2020_bad"})
 
-      self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":markers}))
 
       # with self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":markers}), catch_response=True) as response:
       #   if response.status_code != 200:
@@ -34,9 +33,10 @@ class LogTelemetryUploadTest(HttpUser):
       markers_good.append({"example_3": random.randint(50,150)})
       markers_good.append({"Time": ts})
       markers_good.append({"mac": mac})
-      markers_good.append({"Version":"rdkb-generic-broadband-image_default_2021_good"})
+      markers_good.append({"Version": "rdkb-generic-broadband-image_default_2021_good"})
 
       self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":markers_good}))
+      self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":markers}))
       # with self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":markers_good}), catch_response=True) as response:
       #   if response.status_code != 200:
       #     response.failure("Telemetry upload failed with code " + str(response.status_code))
