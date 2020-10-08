@@ -3,75 +3,50 @@ from time import gmtime, strftime
 import json, base64, os, tarfile, random
 
 class LogTelemetryUploadTest(HttpUser):
-    wait_time = between(10, 20)
+    wait_time = between(60, 61)
 
     @task
-    def post_telemetry1(self):
+    def post_telemetry(self):
       ts = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-      mac_arr = [ 0xB8, 0x27, 0xEB, 0XFF, random.randint(0x00, 0xFF), random.randint(0x00, 0xFF) ]
+      mac_arr = [ 0xB8, 0x27, 0xEB, random.randint(0x00, 0xFF), random.randint(0x00, 0xFF), random.randint(0x00, 0xFF) ]
       mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
-      markers = [{'example_'+str(x): random.randint(0,100)} for x in range(0,4)]
+      markers = [{'marker_'+str(x): random.randint(0,10000)} for x in range(0,98)]
       markers.append({"Time": ts})
       markers.append({"mac": mac})
-      markers.append({"Version": "rdkb-generic-broadband-image_default_2020_bad"})
-      self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":markers}))
 
+      with self.client.post("/perfdev1/upload/device/telemetry", data=json.dumps({"searchResult":markers}), catch_response=True) as response:
+        if response.status_code != 200:
+          response.failure("Telemetry upload failed with code " + str(response.status_code))
 
-      # with self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":markers}), catch_response=True) as response:
-      #   if response.status_code != 200:
-      #     response.failure("Telemetry upload failed with code " + str(response.status_code))
+    @task
+    def post_log(self):
+      ts = strftime("%m-%d-%y-%H-%M-%S-", gmtime())
+      mac_arr = [ 0xB8, 0x27, 0xEB, random.randint(0x00, 0xFF), random.randint(0x00, 0xFF), random.randint(0x00, 0xFF) ]
+      mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
 
+      log_path = "/tmp/log/"
 
-    # @task
-    # def post_telemetry2(self):
-      # ts = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-      # mac_arr = [ 0xB8, 0x27, 0xEB, 0XFF, random.randint(0x00, 0xFF), random.randint(0x00, 0xFF) ]
-      # mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
-      # markers_good = [{'example_'+str(x): random.randint(50,150)} for x in range(0,4)]
-      markers_good = []
-      markers_good.append({"example_0": random.randint(0,80)})
-      markers_good.append({"example_1": random.randint(0,80)})
-      markers_good.append({"example_2": random.randint(50,150)})
-      markers_good.append({"example_3": random.randint(50,150)})
-      markers_good.append({"Time": ts})
-      markers_good.append({"mac": mac})
-      markers_good.append({"Version": "rdkb-generic-broadband-image_default_2021_good"})
+      fl = open('/locust-tasks/log.txt', 'r')
+      log_txt = fl.read().replace('\n', '')
+      fl.close()
 
-      self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":markers_good}))
-      # with self.client.post("/erdk/upload/device/telemetry", data=json.dumps({"searchResult":markers_good}), catch_response=True) as response:
-      #   if response.status_code != 200:
-      #     response.failure("Telemetry upload failed with code " + str(response.status_code))
+      if not os.path.exists(log_path):
+        os.mkdir(log_path)
 
+      fb = open(log_path + "log.tgz", "wb")
+      fb.write(base64.b64decode(log_txt))
+      fb.close()
 
-    # @task
-    # def post_log(self):
-    #   ts = strftime("%m-%d-%y-%H-%M-%S-", gmtime())
-    #   mac_arr = [ 0xB8, 0x27, 0xEB, random.randint(0x00, 0xFF), random.randint(0x00, 0xFF), random.randint(0x00, 0xFF) ]
-    #   mac = ':'.join(map(lambda x: "%02x" % x, mac_arr))
+      with tarfile.open(log_path + "log.tgz", "r") as tar:
+        tar.extractall(path=log_path)
 
-    #   log_path = "/tmp/log/"
+      os.remove(log_path + "log.tgz")
 
-    #   fl = open('/locust-tasks/log.txt', 'r')
-    #   log_txt = fl.read().replace('\n', '')
-    #   fl.close()
+      with tarfile.open("/tmp/" + mac + "-Logs.tgz", "w:gz") as tar:
+        for filename in os.listdir(log_path):
+          tar.add(log_path + filename, arcname=ts + filename)
 
-    #   if not os.path.exists(log_path):
-    #     os.mkdir(log_path)
-
-    #   fb = open(log_path + "log.tgz", "wb")
-    #   fb.write(base64.b64decode(log_txt))
-    #   fb.close()
-
-    #   with tarfile.open(log_path + "log.tgz", "r") as tar:
-    #     tar.extractall(path=log_path)
-
-    #   os.remove(log_path + "log.tgz")
-
-    #   with tarfile.open("/tmp/" + mac + "-Logs.tgz", "w:gz") as tar:
-    #     for filename in os.listdir(log_path):
-    #       tar.add(log_path + filename, arcname=ts + filename)
-
-    #   log = {"filename": open("/tmp/" + mac + "-Logs.tgz", "rb")}
-    #   with self.client.post("/perfdev1/upload/device/log", files=log, catch_response=True) as response:
-    #     if response.status_code != 200:
-    #       response.failure("Log upload failed with code " + str(response.status_code))
+      log = {"filename": open("/tmp/" + mac + "-Logs.tgz", "rb")}
+      with self.client.post("/perfdev1/upload/device/log", files=log, catch_response=True) as response:
+        if response.status_code != 200:
+          response.failure("Log upload failed with code " + str(response.status_code))
